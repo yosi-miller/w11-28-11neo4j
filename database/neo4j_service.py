@@ -43,3 +43,19 @@ class TransactionRepository:
                 'timestamp': transaction_data['interaction']['timestamp']
             })
             return result.single()['transaction_id']
+
+    def find_devices_bluetooth_connected(self):
+        with self.driver.session() as session:
+            query = """
+                MATCH (start:Device)
+                MATCH (end:Device)
+                WHERE start <> end
+                MATCH path = shortestPath((start)-[:TRANSACTION*]->(end))
+                WHERE ALL(r IN relationships(path) WHERE r.method = 'Bluetooth')
+                WITH path, length(path) as pathLength
+                ORDER BY pathLength DESC
+                LIMIT 1
+                RETURN length(path)
+                """
+            result = session.run(query)
+            return result.data()
