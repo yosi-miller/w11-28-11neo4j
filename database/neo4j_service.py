@@ -59,3 +59,27 @@ class TransactionRepository:
                 """
             result = session.run(query)
             return result.data()
+
+    def find_devices_connected_by_id(self, device_id):
+        with self.driver.session() as session:
+            query = """
+
+                """
+            result = session.run(query, {'device_id': device_id})
+            return result.data()
+
+    def find_two_devices_connected(self, device_id_1, device_id_2):
+        with self.driver.session() as session:
+            query = """
+
+                """
+            result = session.run(query, {'device_id_1': device_id_1, 'device_id_2': device_id_2})
+            return result.data()
+
+    def find_most_recent_interaction(self, device_id):
+        with self.driver.session() as session:
+            query = """
+
+                """
+            result = session.run(query, {'device_id': device_id})
+            return result.data()

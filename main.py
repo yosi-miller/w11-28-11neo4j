@@ -33,6 +33,39 @@ def get_devices_bluetooth_connected():
         logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
         return jsonify({'error': 'internal server error'}), 500
 
+@app.route('/api/devices_connected/<device_id>', methods=['GET'])
+def get_devices_connected(device_id):
+    try:
+        repo = TransactionRepository(current_app.neo4j_driver)
+        devices = repo.find_devices_connected_by_id(device_id)
+        return jsonify(devices), 200
+    except Exception as e:
+        print(f'Error in GET /api/v1/transaction: {str(e)}')
+        logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
+        return jsonify({'error': 'internal server error'}), 500
+
+@app.route('/api/two_devices_connected/<device_id_1>/<device_id_2>', methods=['GET'])
+def get_two_devices_connected(device_id_1, device_id_2):
+    try:
+        repo = TransactionRepository(current_app.neo4j_driver)
+        devices = repo.find_two_devices_connected(device_id_1, device_id_2)
+        return jsonify(devices), 200
+    except Exception as e:
+        print(f'Error in GET /api/v1/transaction: {str(e)}')
+        logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
+        return jsonify({'error': 'internal server error'}), 500
+
+@app.route('/api/most_recent_interaction/<device_id>', methods=['GET'])
+def get_most_recent_interaction(device_id):
+    try:
+        repo = TransactionRepository(current_app.neo4j_driver)
+        devices = repo.find_most_recent_interaction(device_id)
+        return jsonify(devices), 200
+    except Exception as e:
+        print(f'Error in GET /api/v1/transaction: {str(e)}')
+        logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
+        return jsonify({'error': 'internal server error'}), 500
+
 with app.app_context():
     app.neo4j_driver = init_neo4j()
 
