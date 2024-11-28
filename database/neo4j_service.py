@@ -60,9 +60,9 @@ class TransactionRepository:
     def find_devices_connected_by_signal(self):
         with self.driver.session() as session:
             query = """
-                match (source:Device)-[r:TRANSACTION]->(target:Device)
-                where r.signal_strength_dbm > -60
-                return source.name, target.name, r.signal_strength_dbm
+                MATCH (source:Device)-[r:TRANSACTION]->(target:Device)
+                WHERE r.signal_strength_dbm > -60
+                RETURN source.name, target.name, r.signal_strength_dbm
                 """
             result = session.run(query)
             return result.data()
@@ -81,15 +81,22 @@ class TransactionRepository:
     def find_two_devices_connected(self, device_id_1, device_id_2):
         with self.driver.session() as session:
             query = """
-
+                match (source:Device {account_id: $s_id})
+                <-[r:TRANSACTION]->
+                (target:Device {account_id: $t_id})
+                return source, r, target
                 """
-            result = session.run(query, {'device_id_1': device_id_1, 'device_id_2': device_id_2})
+            result = session.run(query, {'s_id': device_id_1, 't_id': device_id_2})
             return result.data()
 
     def find_most_recent_interaction(self, device_id):
         with self.driver.session() as session:
             query = """
-
+                MATCH (source:Device)-[r:TRANSACTION]->(target:Device)
+                WHERE source.account_id = $device_id
+                RETURN source, r, target
+                ORDER BY r.timestamp DESC
+                LIMIT 1
                 """
             result = session.run(query, {'device_id': device_id})
             return result.data()
