@@ -1,7 +1,6 @@
 import logging
-
 from flask import Blueprint
-from flask import Flask, request, jsonify, current_app
+from flask import request, jsonify, current_app
 from database.neo4j_service import TransactionRepository
 
 server_bp = Blueprint('server_bp', __name__)

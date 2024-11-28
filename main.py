@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,current_app
+from flask import Flask
 from database.init_db import init_neo4j
 from server_bp import server_bp
 

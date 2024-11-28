@@ -7,4 +7,3 @@ def init_neo4j():
         auth=("neo4j", "password")
     )
     return neo4j_driver
-
