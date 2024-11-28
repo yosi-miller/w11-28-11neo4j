@@ -1,8 +1,11 @@
 # The application will send the JSON to the address: http://localhost:5000/api/phone_tracker
 # Create your own Flask application that will handle requests to the above address.
-import json
+import logging
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,current_app
+
+from database.init_db import init_neo4j
+from database.neo4j_service import TransactionRepository
 
 app = Flask(__name__)
 
@@ -10,8 +13,22 @@ app = Flask(__name__)
 def phone_tracker():
     data = request.json
     print(data)
-    return jsonify(data)
+    try:
+        repo = TransactionRepository(current_app.neo4j_driver)
+        transaction_id = repo.create_transaction(data)
 
+        return jsonify({
+            'status': 'success',
+            'transaction_id': transaction_id
+        }), 201
+
+    except Exception as e:
+        print(f'Error in POST /api/v1/transaction: {str(e)}')
+        logging.error(f'Error in POST /api/v1/transaction: {str(e)}')
+        return jsonify({'error': 'internal server error'}), 500
+
+with app.app_context():
+    app.neo4j_driver = init_neo4j()
 
 if __name__ == '__main__':
     app.run(debug=True)

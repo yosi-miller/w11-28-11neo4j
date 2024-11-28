@@ -1,0 +1,40 @@
+{
+  "devices": [
+    {
+      "id": "9ac02fa8-6f3f-4931-9a76-0569e9b4e20e",
+      "name": "Michael",
+      "brand": "Bell, Jones and Ellis",
+      "model": "Kitchen Especially",
+      "os": "MakeOS 1.9",
+      "location": {
+        "latitude": -85.79074,
+        "longitude": 125.258346,
+        "altitude_meters": 859,
+        "accuracy_meters": 23
+      }
+    },
+    {
+      "id": "2622a311-3cb4-49b6-a815-cf1481593c50",
+      "name": "Christina",
+      "brand": "Smith LLC",
+      "model": "Call Brother",
+      "os": "MonthOS 4.1",
+      "location": {
+        "latitude": 15.02153,
+        "longitude": -0.077322,
+        "altitude_meters": 1508,
+        "accuracy_meters": 8
+      }
+    }
+  ],
+  "interaction": {
+    "from_device": "9ac02fa8-6f3f-4931-9a76-0569e9b4e20e",
+    "to_device": "2622a311-3cb4-49b6-a815-cf1481593c50",
+    "method": "NFC",
+    "bluetooth_version": "5.2",
+    "signal_strength_dbm": -49,
+    "distance_meters": 14.15,
+    "duration_seconds": 242,
+    "timestamp": "1983-09-21T18:21:01"
+  }
+}

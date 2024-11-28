@@ -16,10 +16,3 @@ services:
 volumes:
     neo4j_data:
     neo4j_logs:
-    redis_data:
-
-
-
-
-
-
