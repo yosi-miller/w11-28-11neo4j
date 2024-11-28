@@ -45,17 +45,18 @@ def get_devices_connected_by_signal():
         logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
         return jsonify({'error': 'internal server error'}), 500
 
-# @server_bp.route('/api/devices_connected/<device_id>', methods=['GET'])
-# def get_devices_connected(device_id):
-#     try:
-#         repo = TransactionRepository(current_app.neo4j_driver)
-#         devices = repo.find_devices_connected_by_id(device_id)
-#         return jsonify(devices), 200
-#     except Exception as e:
-#         print(f'Error in GET /api/v1/transaction: {str(e)}')
-#         logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
-#         return jsonify({'error': 'internal server error'}), 500
-#
+@server_bp.route('/api/devices_connected/<device_id>', methods=['GET'])
+def get_devices_connected(device_id):
+    try:
+        repo = TransactionRepository(current_app.neo4j_driver)
+        print(device_id)
+        devices = repo.find_devices_connected_by_id(device_id)
+        return jsonify(devices), 200
+    except Exception as e:
+        print(f'Error in GET /api/v1/transaction: {str(e)}')
+        logging.error(f'Error in GET /api/v1/transaction: {str(e)}')
+        return jsonify({'error': 'internal server error'}), 500
+
 # @server_bp.route('/api/two_devices_connected/<device_id_1>/<device_id_2>', methods=['GET'])
 # def get_two_devices_connected(device_id_1, device_id_2):
 #     try:

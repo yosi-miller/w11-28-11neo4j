@@ -69,8 +69,11 @@ class TransactionRepository:
 
     def find_devices_connected_by_id(self, device_id):
         with self.driver.session() as session:
+            # כדי לספור כמה מכשירים מחוברים למכשיר ספציפי על סמך מזהה שסופק.
             query = """
-
+                match p=(source:Device)-[r:TRANSACTION]->(target:Device)
+                where source.account_id = $device_id 
+                return count(p)
                 """
             result = session.run(query, {'device_id': device_id})
             return result.data()
