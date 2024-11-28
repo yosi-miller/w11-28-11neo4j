@@ -60,14 +60,9 @@ class TransactionRepository:
     def find_devices_connected_by_signal(self):
         with self.driver.session() as session:
             query = """
-                MATCH (start:Device)
-                MATCH (end:Device)
-                WHERE start <> end
-                MATCH path = shortestPath((start)-[:TRANSACTION*]->(end))
-                WHERE ALL(r IN relationships(path) WHERE r.signal_strength_dbm >= -60)
-                WITH path, length(path) as pathLength
-                ORDER BY pathLength DESC
-                RETURN path
+                match (source:Device)-[r:TRANSACTION]->(target:Device)
+                where r.signal_strength_dbm > -60
+                return source.name, target.name, r.signal_strength_dbm
                 """
             result = session.run(query)
             return result.data()
